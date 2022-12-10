@@ -6,6 +6,10 @@ class Game
     @finished = false
   end
 
+  def coordinate_food
+    [@food_x, @food_y]
+  end
+
   def draw
     unless finished?
       Square.new(x: @food_x * GRID_SIZE, y: @food_y * GRID_SIZE, size: GRID_SIZE, color: 'red')
@@ -19,16 +23,7 @@ class Game
   end
 
   def random_food_for_snake(snake_positions)
-    # [[2, 23], [2, 0], [2, 1], [2, 2]]
-    food = random_food
-
-    snake_positions.each do |pos|
-      if pos.eql?(food)
-        food = random_food
-      end
-    end
-
-    return food
+    random_food while snake_positions.include?(coordinate_food)
   end
 
   def finished?
@@ -41,24 +36,19 @@ class Game
 
   def record_hit(positions_snake)
     @score += 1
-
-    pos_food = random_food_for_snake(positions_snake)
-
-    @food_x = pos_food[0]
-    @food_y = pos_food[1]
+    random_food_for_snake(positions_snake)
   end
 
   private
 
-  def text_message
-    finished? ? "Game over. Your score: #{@score}. Press 'R' to restart" : "Score: #{@score}"
+  def random_food
+    @food_x = rand(GRID_WIDTH)
+    @food_y = rand(GRID_HEIGHT)
+
+    [@food_x, @food_y]
   end
 
-  def random_food
-    food_x_y = []
-
-    food_x_y << rand(GRID_WIDTH)
-    food_x_y << rand(GRID_HEIGHT)
-    return food_x_y
+  def text_message
+    finished? ? "Game over. Your score: #{@score}. Press 'R' to restart" : "Score: #{@score}"
   end
 end
