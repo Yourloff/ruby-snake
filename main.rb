@@ -1,10 +1,11 @@
 require 'ruby2d'
+require 'byebug'
 
 require_relative 'lib/snake'
 require_relative 'lib/game'
 
 set title: 'Snake', background: 'navy'
-set fps_cap: 15
+set fps_cap: 13
 
 GRID_SIZE = 20
 GRID_WIDTH = Window.width / GRID_SIZE
@@ -24,7 +25,8 @@ update do
   game.draw
 
   if game.snake_eat_food?(snake.x, snake.y)
-    game.record_hit
+    game.record_hit(snake.positions)
+
     snake.grow
   end
 

@@ -1,5 +1,6 @@
 class Snake
   attr_writer :direction
+  attr_reader :positions
 
   def initialize
     @positions = [[2, 0], [2, 1], [2, 2], [2, 3]]
@@ -52,7 +53,7 @@ class Snake
     when 'left' then new_direction != 'right'
     when 'right' then new_direction != 'left'
     else
-      # type code here
+
     end
   end
 
